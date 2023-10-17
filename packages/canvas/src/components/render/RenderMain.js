@@ -63,16 +63,16 @@ const setUtils = (data, clear, isForceRefresh) => {
   const utilsCollection = {}
   // 目前画布还不具备远程加载utils工具类的功能，目前只能加载TinyVue组件库中的组件工具
   data?.forEach((item) => {
-    const util = window.TinyVue[item.name]
-    if (util) {
-      utilsCollection[item.name] = util
-    }
+    // const util = window.TinyVue[item.name]
+    // if (util) {
+    //   utilsCollection[item.name] = util
+    // }
 
-    // 此处需要把工具类中的icon图标也加入utils上下文环境
-    const utilIcon = window.TinyVueIcon[item.name]
-    if (utilIcon) {
-      utilsCollection[item.name] = utilIcon
-    }
+    // // 此处需要把工具类中的icon图标也加入utils上下文环境
+    // const utilIcon = window.TinyVueIcon[item.name]
+    // if (utilIcon) {
+    //   utilsCollection[item.name] = utilIcon
+    // }
 
     // 解析函数式的工具类
     if (item.type === 'function') {

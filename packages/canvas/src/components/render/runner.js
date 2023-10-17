@@ -15,8 +15,8 @@ import * as VueI18n from 'vue-i18n'
 import { addScript, addStyle, dynamicImportComponents, updateDependencies } from '../common'
 import TinyI18nHost, { I18nInjectionKey } from '@opentiny/tiny-engine-common/js/i18n'
 import * as TinyWebcomponentCore from '@opentiny/tiny-engine-webcomponent-core'
-import TinyVue from '@opentiny/vue'
-import * as TinyVueIcon from '@opentiny/vue-icon'
+// import TinyVue from '@opentiny/vue'
+// import * as TinyVueIcon from '@opentiny/vue-icon'
 import Main, { api } from './RenderMain'
 import { getComponent, blockSlotDataMap } from './render'
 import lowcode from '../../lowcode'
@@ -79,19 +79,19 @@ window.Vue = {
 }
 
 window.VueI18n = VueI18n
-window.TinyVue = TinyVue
-window.TinyVueIcon = TinyVueIcon
+// window.TinyVue = TinyVue
+// window.TinyVueIcon = TinyVueIcon
 window.TinyWebcomponentCore = TinyWebcomponentCore
 window.TinyI18nHost = TinyI18nHost
-window.TinyLowcodeComponent = {}
-window.TinyComponentLibs = {}
+// window.TinyLowcodeComponent = {}
+// window.TinyComponentLibs = {}
 
-Object.entries(TinyVue).forEach(([_key, component]) => {
-  const { name } = component
-  if (name) {
-    window.TinyLowcodeComponent[name] = component
-  }
-})
+// Object.entries(TinyVue).forEach(([_key, component]) => {
+//   const { name } = component
+//   if (name) {
+//     window.TinyLowcodeComponent[name] = component
+//   }
+// })
 
 let App = null
 

@@ -9504,7 +9504,8 @@
               "schema": {
                 "componentName": "table",
                 "props": {
-                  "border": "1"
+                  "border": "1",
+                  "width": "100%"
                 },
                 "children": [
                   {

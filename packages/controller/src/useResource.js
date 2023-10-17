@@ -25,6 +25,10 @@ import { getCanvasStatus } from '@opentiny/tiny-engine-common/js/index'
 import useBlock from './useBlock'
 import useNotify from './useNotify'
 
+import html from './material/html'
+import uview from './material/uview'
+import uni from './material/uni'
+
 const { camelize, capitalize } = utils
 const { MATERIAL_TYPE, COMPONENT_NAME, DEFAULT_INTERCEPTOR } = constants
 
@@ -158,64 +162,9 @@ const clearMaterials = () => {
 
 const clearBlockResources = () => blockResource.clear()
 
-/**
- * 收集第三方组件库依赖
- * @param {array} components 组件物料列表
- */
-const generateThirdPartyDeps = (components) => {
-  const styles = []
-  const scripts = []
-
-  components.forEach((item) => {
-    const { npm, component } = item
-
-    if (!npm || !Object.keys(npm).length) return
-
-    const { package: pkg, script, exportName, css } = npm
-    const currentPkg = scripts.find((item) => item.package === pkg)
-
-    if (currentPkg) {
-      // 保存组件id和导出组件名的对应关系 TinyButton： Button
-      currentPkg.components[component] = exportName
-    } else {
-      scripts.push({
-        package: pkg,
-        script,
-        components: {
-          [component]: exportName
-        }
-      })
-    }
-
-    if (css) {
-      styles.push(css)
-    }
-  })
-
-  resState.thirdPartyDeps.scripts.push(...scripts)
-  styles.forEach((item) => resState.thirdPartyDeps.styles.add(item))
-}
-
 const addMaterials = (materials = {}) => {
-  generateThirdPartyDeps(materials.components)
-  resState.components.push(...materials.snippets)
-  materials.components.map(registerComponent)
-
-  const promises = materials?.blocks?.map((item) => registerBlock(item, true))
-  Promise.allSettled(promises).then((blocks) => {
-    if (!blocks?.length) {
-      return
-    }
-    // 默认区块都会展示在默认分组中
-    if (!resState.blocks?.[0]?.children) {
-      resState.blocks.push({
-        groupId: useBlock().DEFAULT_GROUP_ID,
-        groupName: useBlock().DEFAULT_GROUP_NAME,
-        children: []
-      })
-    }
-    resState.blocks[0].children.unshift(...blocks.filter((res) => res.status === 'fulfilled').map((res) => res.value))
-  })
+  materials.snippets && resState.components.push(...materials.snippets)
+  materials.components?.map(registerComponent)
 }
 
 const getMaterial = (name) => {
@@ -410,8 +359,8 @@ const fetchResource = async ({ isInit = true } = {}) => {
   }
 
   try {
-    await fetchMaterial()
-
+    const mts = [html, uview, uni]
+    mts.map(addMaterials)
     if (isInit) {
       await initPageOrBlock()
     }

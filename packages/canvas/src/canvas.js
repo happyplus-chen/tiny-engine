@@ -11,20 +11,20 @@
  */
 
 import { createApp } from 'vue'
-import * as TinyVue from '@opentiny/vue'
+// import * as TinyVue from '@opentiny/vue'
 
 import { RenderMain } from './index'
 
 import { I18nInjectionKey, createI18n } from 'vue-i18n'
 
-window.TinyLowcodeComponent = {}
+// window.TinyLowcodeComponent = {}
 
-Object.entries(TinyVue).forEach(([_key, component]) => {
-  const { name } = component
-  if (name) {
-    window.TinyLowcodeComponent[name] = component
-  }
-})
+// Object.entries(TinyVue).forEach(([_key, component]) => {
+//   const { name } = component
+//   if (name) {
+//     window.TinyLowcodeComponent[name] = component
+//   }
+// })
 
 const i18nHost = createI18n({
   locale: 'zh_CN',

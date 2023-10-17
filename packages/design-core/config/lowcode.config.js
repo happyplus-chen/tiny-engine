@@ -29,9 +29,9 @@ export default {
   canvasOptions: {
     Angular: {},
     Vue: {
-      material: ['http://localhost:8080/mock/bundle.json'],
-      scripts: [],
-      styles: ['http://localhost:8080/tiny-vue.css']
+      // material: ['http://localhost:8080/mock/bundle.json'],
+      // scripts: [],
+      // styles: ['http://localhost:8080/tiny-vue.css']
     },
     React: {},
     HTML: {},

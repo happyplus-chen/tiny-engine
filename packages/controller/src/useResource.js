@@ -361,6 +361,7 @@ const fetchResource = async ({ isInit = true } = {}) => {
   try {
     const mts = [html, uview, uni]
     mts.map(addMaterials)
+    
     if (isInit) {
       await initPageOrBlock()
     }

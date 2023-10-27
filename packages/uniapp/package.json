@@ -22,6 +22,8 @@
     "@dcloudio/vite-plugin-uni": "3.0.0-3081220230817001",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@vue/runtime-core": "^3.2.45",
+    "sass": "^1.69.5",
+    "sass-loader": "10",
     "vite": "4.1.4"
   }
 }

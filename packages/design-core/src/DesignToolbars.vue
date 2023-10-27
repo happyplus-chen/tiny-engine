@@ -48,7 +48,7 @@ export default {
       }
     })
     nextTick(() => {
-      state.showDeployBlock = true
+      // state.showDeployBlock = true
     })
 
     return {

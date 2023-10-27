@@ -7,26 +7,28 @@ const camelize = (str) => {
 };
 
 
-const uviewui = import.meta.glob(
-	"../uni_modules/uview-plus/components/*/*.vue",
-	{ eager: true }
-);
+// const uviewui = import.meta.glob(
+// 	"../uni_modules/uview-plus/components/*/*.vue",
+// 	{ eager: true }
+// );
 
 
 
-Object.keys(uviewui).forEach((path) => {
-	if (!path.includes("u--")) {
-		const index = path.lastIndexOf("/") + 1;
-		const name = path.substr(index).replace(".vue", "");
-		console.log(camelize(name));
-		if (name.startsWith("u")) {
-			window.TinyLowcodeComponent[camelize(name)] = uviewui[path].default;
-		}
-	}
-});
+// Object.keys(uviewui).forEach((path) => {
+// 	if (!path.includes("u--")) {
+// 		const index = path.lastIndexOf("/") + 1;
+// 		const name = path.substr(index).replace(".vue", "");
+// 		console.log(camelize(name));
+// 		if (name.startsWith("u")) {
+// 			window.TinyLowcodeComponent[camelize(name)] = uviewui[path].default;
+// 		}
+// 	}
+// });
+
+import UButton from 'uview-plus/components/u-button/u-button.vue'
 
 
-
+window.TinyLowcodeComponent = {UButton}
 
 const dispatch = (name, data) => {
 	window.parent.document.dispatchEvent(new CustomEvent(name, data))

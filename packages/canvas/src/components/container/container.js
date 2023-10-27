@@ -772,7 +772,7 @@ export const initCanvas = ({ renderer, iframe, emit, controller }) => {
   canvasState.controller = controller
   canvasState.renderer = renderer
   renderer.setController(controller)
-  setLocales(useTranslate().getData(), true)
+  // setLocales(useTranslate().getData(), true)
   if (isVsCodeEnv) {
     const parent = window.parent
     const senterMessage = parent.postMessage

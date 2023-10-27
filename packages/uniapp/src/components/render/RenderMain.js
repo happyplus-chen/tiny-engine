@@ -345,13 +345,13 @@ export default {
   setup() {
     provide('rootSchema', schema)
 
-    const { locale } = inject(I18nInjectionKey).global
-    const { data } = useBroadcastChannel({ name: BROADCAST_CHANNEL.CanvasLang })
+    // const { locale } = inject(I18nInjectionKey).global
+    // const { data } = useBroadcastChannel({ name: BROADCAST_CHANNEL.CanvasLang })
     const { post } = useBroadcastChannel({ name: BROADCAST_CHANNEL.SchemaLength })
 
-    watch(data, () => {
-      locale.value = data.value
-    })
+    // watch(data, () => {
+    //   locale.value = data.value
+    // })
 
     watch(
       () => schema?.children?.length,

@@ -14,8 +14,8 @@ import { h, provide, reactive } from 'vue'
 import { isHTMLTag, hyphenate } from '@vue/shared'
 import { useBroadcastChannel } from '@vueuse/core'
 import { constants, utils } from '../../utils'
-import babelPluginJSX from '@vue/babel-plugin-jsx'
-import { transformSync } from '@babel/core'
+// import babelPluginJSX from '@vue/babel-plugin-jsx'
+// import { transformSync } from '@babel/core'
 // import i18nHost from '@opentiny/tiny-engine-i18n-host'
 import { context, conditions, setNode } from './context'
 import {
@@ -33,6 +33,14 @@ import { NODE_UID as DESIGN_UIDKEY, NODE_TAG as DESIGN_TAGKEY, NODE_LOOP as DESI
 
 const { BROADCAST_CHANNEL } = constants
 const { hyphenateRE } = utils
+
+// 规避创建function eslint报错
+export const newFn = (...argv) => {
+  const Fn = Function
+  return new Fn(...argv)
+}
+
+const custElements = {}
 
 const transformJSX = (code) =>
   transformSync(code, {
@@ -225,11 +233,7 @@ const parseFunctionString = (fnStr) => {
   return null
 }
 
-// 规避创建function eslint报错
-export const newFn = (...argv) => {
-  const Fn = Function
-  return new Fn(...argv)
-}
+
 
 // 解析JSX字符串为可执行函数
 const parseJSXFunction = (data, ctx) => {
@@ -262,7 +266,7 @@ const parseJSFunction = (data, scope, ctx = context) => {
     const innerFn = newFn(`return ${data.value}`).bind(ctx)()
     return generateFn(innerFn, ctx)
   } catch (error) {
-    return parseJSXFunction(data, ctx)
+    // return parseJSXFunction(data, ctx)
   }
 }
 
@@ -408,7 +412,7 @@ const getPlainProps = (object = {}) => {
   return props
 }
 
-const custElements = {}
+
 
 const generateCollection = (schema) => {
   if (schema.componentName === 'Collection' && schema.props?.dataSource && schema.children) {

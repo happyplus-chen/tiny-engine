@@ -24,6 +24,10 @@ const config = {
     port: 8080,
     open: '/?type=app&id=918&tenant=1',
     proxy: {
+      '/h5/': {
+        target: 'http://localhost:9526/',
+        changeOrigin: true
+      },
       '/app-center/v1/api': {
         target: origin,
         changeOrigin: true

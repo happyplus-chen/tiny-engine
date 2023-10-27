@@ -67,6 +67,9 @@ export default defineConfig({
   define: {
     'process.env': {}
   },
+  server:{
+    port: 9526
+  },
   plugins: [uni(), vueJsx(),
   visualizer({
           filename: 'tmp/report.html',

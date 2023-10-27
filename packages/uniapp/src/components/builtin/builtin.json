@@ -140,7 +140,7 @@
               "name": {
                 "zh_CN": "Collection"
               },
-              "component": "Collection",
+              "component": "UButton",
               "schema": {
                 "slots": {},
                 "properties": [
@@ -175,7 +175,7 @@
                         }
                       },
                       {
-                        "property": "style",
+                        "property": "type",
                         "type": "String",
                         "defaultValue": "",
                         "label": {
@@ -859,13 +859,13 @@
             },
             {
               "name": {
-                "zh_CN": "Collection"
+                "zh_CN": "UButton"
               },
               "screenshot": "",
-              "snippetName": "Collection",
+              "snippetName": "UButton",
               "icon": "Collection",
               "schema": {
-                "componentName": "Collection",
+                "componentName": "UButton",
                 "props": {}
               }
             },

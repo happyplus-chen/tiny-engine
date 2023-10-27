@@ -2,7 +2,10 @@ import { defineConfig } from 'vite'
 import path from 'path'
 import uni from '@dcloudio/vite-plugin-uni'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import {NodeGlobalsPolyfillPlugin} from '@esbuild-plugins/node-globals-polyfill'
+import nodeGlobalsPolyfillPlugin from '@esbuild-plugins/node-globals-polyfill'
+import nodeModulesPolyfillPlugin from '@esbuild-plugins/node-modules-polyfill'
+import nodePolyfill from 'rollup-plugin-polyfill-node'
+import visualizer from 'rollup-plugin-visualizer'
 
 const devAlias = {
   '@opentiny/tiny-engine-common/js': path.resolve(__dirname, '../common/js'),
@@ -64,22 +67,40 @@ export default defineConfig({
   define: {
     'process.env': {}
   },
-  plugins: [
-    uni(),
-    vueJsx()
+  plugins: [uni(), vueJsx(),
+  visualizer({
+          filename: 'tmp/report.html',
+          title: 'Bundle Analyzer'
+        })
   ],
   optimizeDeps: {
     esbuildOptions: {
-        // Node.js global to browser globalThis
-        define: {
-            global: 'globalThis'
-        },
-        // Enable esbuild polyfill plugins
-        plugins: [
-            NodeGlobalsPolyfillPlugin({
-                buffer: true
-            })
-        ]
+      // Node.js global to browser globalThis
+      define: {
+        global: 'globalThis'
+      },
+      // Enable esbuild polyfill plugins
+      plugins: [
+        nodeGlobalsPolyfillPlugin({
+          process: true,
+          buffer: true
+        }),
+        nodeModulesPolyfillPlugin()
+        
+      ]
+    }
+  },
+  base: 'h5',
+  build: {
+    minify: false,
+    rollupOptions: {
+      plugins: [nodePolyfill({ include: null })],
+      // external: ['vue', '@vueuse/core', 'vue-i18n', /@opentiny\/tiny-engine.*/, /@opentiny\/vue.*/],
+      output: {
+        manualChunks() {
+          return 'app'
+        }
+      }
     }
   }
 })

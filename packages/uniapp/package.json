@@ -1,15 +1,17 @@
 {
-  "name": "@opentiny/tiny-uniapp",
+  "name": "@opentiny/uniapp",
   "version": "1.0.0",
   "scripts": {
-    "dev:h5": "uni",
-    "build:h5": "uni build"
+    "dev": "uni",
+    "serve": "vite",
+    "build": "uni build"
   },
   "dependencies": {
     "@dcloudio/uni-components": "3.0.0-3081220230817001",
     "@dcloudio/uni-h5": "3.0.0-3081220230817001",
     "vue": "^3.2.45",
-    "vue-i18n": "^9.1.9"
+    "vue-i18n": "^9.1.9",
+    "@vueuse/core":"^9.6.0"
   },
   "devDependencies": {
     "@dcloudio/types": "^3.3.2",

@@ -1,13 +1,14 @@
 <template>
   <div style="height: calc(100vh - 100px)">
-    <canvas-container :controller="controller" @selected="nodeSelected"></canvas-container>
+    <!-- <canvas-container :controller="controller" @selected="nodeSelected"></canvas-container> -->
+    <RenderMain></RenderMain>
   </div>
 </template>
 
 <script setup>
-import CanvasContainer from '@opentiny/tiny-engine-canvas'
+import RenderMain from '../components/render/RenderMain'
 
-import formJSON from '../../test/form.json'
+import formJSON from '../test/form.json'
 
 const controller = {
   getPageSchema() {

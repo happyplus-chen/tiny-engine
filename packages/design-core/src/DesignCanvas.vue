@@ -4,7 +4,7 @@
       <canvas-container
         :controller="controller"
         :materials-panel="materialsPanel"
-        :canvas-src="canvasUrl"
+        canvas-src="h5/index.html"
         @remove="removeNode"
         @selected="nodeSelected"
       ></canvas-container>

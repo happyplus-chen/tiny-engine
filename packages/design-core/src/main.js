@@ -19,12 +19,35 @@ import globalConfig from '../config/lowcode.config'
 import { initMonitor } from '@opentiny/tiny-engine-common/js/monitor'
 import { isDevelopEnv } from '@opentiny/tiny-engine-common/js/environments'
 import 'virtual:svg-icons-register'
+import { createWebHistory, createRouter } from 'vue-router'
 
 import TinyThemeTool from '@opentiny/vue-theme/theme-tool'
 import { tinySmbTheme } from '@opentiny/vue-theme/theme' // SMB 主题
 
 // eslint-disable-next-line no-new
 new TinyThemeTool(tinySmbTheme, 'smbtheme') // 初始化主题
+
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    {
+      path: '/login',
+      component: () => import('./login')
+    },
+    {
+      path: '/design',
+      component: () => import('./design')
+    },
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  },
+});
 
 if (!isDevelopEnv) {
   initMonitor()
@@ -37,4 +60,4 @@ const app = createApp(App)
 
 initSvgs(app)
 window.lowcodeI18n = i18n
-app.use(i18n).mount('#app')
+app.use(i18n).use(router).mount('#app')

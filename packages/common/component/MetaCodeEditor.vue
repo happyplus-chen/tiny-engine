@@ -1,28 +1,29 @@
 <template>
   <div class="editor-wrap">
-    <slot>
+    <slot :open="open">
       <div v-if="buttonShowContent" :class="['full-width', { 'empty-color': value === '' }]" @click="open">
-        <span>{{ value === '' ? buttonLabel : value?.slice(0, 30) }}</span>
-        <svg-icon class="edit-icon" name="flow-edit"></svg-icon>
+        <span class="text-content text-ellipsis-multiple">{{ value === '' ? buttonLabel : value }}</span>
+        <svg-icon class="edit-icon" name="edit"></svg-icon>
       </div>
       <tiny-button v-else class="edit-btn" @click="open">
         {{ buttonLabel }}
       </tiny-button>
     </slot>
     <tiny-dialog-box
-        v-model:visible="editorState.show"
-        :title="titleLabel"
-        width="50vw"
-        class="meta-code-editor-dialog-box"
-        append-to-body
+      v-model:visible="editorState.show"
+      :title="titleLabel"
+      width="50vw"
+      class="meta-code-editor-dialog-box"
+      append-to-body
+      :close-on-click-modal="false"
     >
       <div class="source-code">
         <div v-if="editorTipsTitle" class="header-tips-container">
           <span class="header-tips-title" :title="editorTipsTitle">{{ editorTipsTitle }}</span>
           <div
-              v-if="editorTipsDemo"
-              class="header-tips-showdemo"
-              @click="editorState.showEditorDemo = !editorState.showEditorDemo"
+            v-if="editorTipsDemo"
+            class="header-tips-showdemo"
+            @click="editorState.showEditorDemo = !editorState.showEditorDemo"
           >
             <span>{{ editorState.showEditorDemo ? $t('common.collapseExample') : $t('common.expandExample') }}</span>
             <icon-chevron-up v-if="editorState.showEditorDemo" class="collapse-icon"></icon-chevron-up>
@@ -35,22 +36,28 @@
           </div>
         </div>
         <monaco-editor
-            ref="editor"
-            class="source-code-content"
-            :value="value"
-            :options="options"
-            @editorDidMount="editorDidMount"
+          ref="editor"
+          class="source-code-content"
+          :value="value"
+          :options="options"
+          @editorDidMount="editorDidMount"
         ></monaco-editor>
         <div v-if="showErrorMsg" class="error-msg">{{ editorState.errorMsg }}</div>
       </div>
       <template #footer>
         <div class="btn-box">
-          <tiny-button type="danger" v-if="language === 'json' && showFormatBtn" @click="formatCode">
+          <tiny-button
+            v-if="language === 'json' && showFormatBtn"
+            class="format-btn"
+            plain
+            type="danger"
+            @click="formatCode"
+          >
             {{ $t('common.format') }}
           </tiny-button>
           <div>
+            <tiny-button @click="close">{{ $t('common.cancel') }}</tiny-button>
             <tiny-button type="primary" @click="save">{{ $t('common.save') }}</tiny-button>
-            <tiny-button @click="close">{{ $t('common.close') }}</tiny-button>
           </div>
         </div>
       </template>
@@ -139,7 +146,7 @@ export default {
 
     watchEffect(() => {
       const { modelValue, dataType } = props
-      const val = dataType ? modelValue?.value : modelValue
+      const val = dataType ? modelValue?.value || '' : modelValue
       value.value = typeof val === 'string' ? val : JSON.stringify(val, null, 2)
     })
 
@@ -269,19 +276,32 @@ export default {
 }
 .btn-box {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  &:has(.format-btn) {
+    justify-content: space-between;
+  }
 }
 .full-width {
-  border: 1px solid #adb0b8;
-  border-radius: 2px;
-  padding: 4px 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  height: 32px;
+  padding: 4px 8px;
+  border: 1px solid var(--ti-lowcode-meta-codeEditor-border-color);
+  border-radius: 6px;
+  &:hover {
+    border-color: var(--ti-lowcode-meta-codeEditor-border-hover-color);
+  }
+  .text-content {
+    --ellipsis-line: 1;
+  }
   &.empty-color {
     color: var(--ti-lowcode-common-text-desc-color);
   }
   .edit-icon {
+    margin-left: 4px;
+    flex-shrink: 0;
     cursor: pointer;
     color: var(--ti-lowcode-common-text-main-color);
   }

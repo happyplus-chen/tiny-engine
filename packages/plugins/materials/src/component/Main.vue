@@ -117,6 +117,8 @@ export default {
 <style lang="less" scoped>
 .components-wrap {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 
   .tiny-search {
     padding: 12px 8px;
@@ -161,10 +163,16 @@ export default {
         white-space: nowrap;
       }
     }
+
+    :deep(.drag-item:nth-child(3n)) {
+      .component-item {
+        border-right: none;
+      }
+    }
   }
 
   .tiny-collapse {
-    height: calc(100% - 56px);
+    flex: 1;
     overflow-y: scroll;
     .tiny-collapse-item.is-active + .tiny-collapse-item {
       margin-top: 0;
@@ -174,13 +182,6 @@ export default {
       .item {
         cursor: pointer;
       }
-    }
-  }
-
-  :deep(.tiny-svg, #tiny-engine .tiny-svg) {
-    transform: rotate(270deg);
-    &.is-active {
-      transform: rotate(180deg);
     }
   }
 }

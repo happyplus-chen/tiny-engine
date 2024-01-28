@@ -10,11 +10,15 @@
  *
  */
 
-import { toRaw, nextTick, shallowReactive } from 'vue'
+import { toRaw, nextTick, shallowReactive, ref } from 'vue'
+import { getNode, setState, updateRect } from '@opentiny/tiny-engine-canvas'
+import { constants } from '@opentiny/tiny-engine-utils'
 import useCanvas from './useCanvas'
 import useResource from './useResource'
 import useTranslate from './useTranslate'
-import { getNode, setState, updateRect } from '@opentiny/tiny-engine-canvas'
+
+const { COMPONENT_NAME } = constants
+const propsUpdateKey = ref(0)
 
 const otherBaseKey = {
   className: {
@@ -148,11 +152,18 @@ const properties = shallowReactive({
   parent: null
 })
 
+const isPageOrBlock = (schema) => [COMPONENT_NAME.Block, COMPONENT_NAME.Page].includes(schema?.componentName)
+
 const getProps = (schema, parent) => {
-  // 现在选中的节点和当前节点一样，不需要重新计算
-  if (schema && properties.schema !== schema) {
+  // 1 现在选中的节点和当前节点一样，不需要重新计算, 2 默认进来由于scheme和properities.schema相等，因此判断如果是“页面或者区块”需要进入if判断
+  if (schema && (properties.schema !== schema || isPageOrBlock(schema))) {
     const { props, componentName } = schema
-    const { schema: metaSchema, content, properties } = useResource().getMaterial(componentName)
+    // 若选中的是page或者 blcok，没有对应schema，ComponentName 给 div 设置根节点属性
+    const {
+      schema: metaSchema,
+      content,
+      properties
+    } = useResource().getMaterial(isPageOrBlock(schema) ? 'div' : componentName)
     const schemaProps = properties || metaSchema?.properties || content?.schema?.properties || []
     const propGroups = [...schemaProps]
 
@@ -168,6 +179,10 @@ const getProps = (schema, parent) => {
 }
 
 const setProp = (name, value) => {
+  if (!properties.schema) {
+    return
+  }
+
   properties.schema.props = properties.schema.props || {}
 
   if (value === '' || value === undefined || value === null) {
@@ -177,7 +192,14 @@ const setProp = (name, value) => {
   }
 
   // 没有父级，或者不在节点上面，要更新内容。就用setState
-  getNode(properties.schema.id, true).parent || setState(useCanvas().getPageSchema().state)
+  getNode(properties.schema.id, true)?.parent || setState(useCanvas().getPageSchema().state)
+  propsUpdateKey.value++
+
+  // 更新根节点props不用updateRect
+  if (!properties.schema.id) {
+    return
+  }
+
   nextTick(updateRect)
 }
 
@@ -188,6 +210,7 @@ const getProp = (key) => {
 const delProp = (name) => {
   const props = properties.schema.props || {}
   delete props[name]
+  propsUpdateKey.value++
 }
 
 const setProps = (schema) => {
@@ -205,6 +228,7 @@ export default function () {
     translateProp,
     getSchema(parent) {
       return parent ? properties : properties.schema
-    }
+    },
+    propsUpdateKey
   }
 }

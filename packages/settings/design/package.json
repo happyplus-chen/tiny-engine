@@ -1,6 +1,6 @@
 {
   "name": "@opentiny/tiny-engine-setting-design",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publishConfig": {
     "access": "public"
   },
@@ -12,8 +12,19 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opentiny/tiny-engine",
+    "directory": "packages/settings/design"
+  },
+  "bugs": {
+    "url": "https://github.com/opentiny/tiny-engine/issues"
+  },
+  "author": "OpenTiny Team",
+  "license": "MIT",
+  "homepage": "https://opentiny.design/tiny-engine",
   "dependencies": {
-    "@opentiny/tiny-engine-common": "workspace:^1.0.0",
+    "@opentiny/tiny-engine-common": "workspace:*",
     "@opentiny/vue": "~3.10.0",
     "sortablejs": "^1.14.0",
     "vue": "3.2.45"

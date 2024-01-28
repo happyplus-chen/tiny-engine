@@ -17,6 +17,12 @@ English | [简体中文](README.zh-CN.md)
 - Supports high-code and low-code, and hybrid development and deployment of applications.
 - The platform accesses AI big model capabilities to help developers build applications.
 
+## Documentation
+
+- intro：https://opentiny.design/tiny-engine#/home
+- tutorial：https://opentiny.design/tiny-engine#/help-center/course/engine
+- playground：https://opentiny.design/tiny-engine#/tiny-engine-editor
+
 ## Development
 
 ### Dependencies required for installation
@@ -29,6 +35,27 @@ $ pnpm install
 
 ```sh
 $ pnpm dev
+```
+
+## Local development, directly connected to the local tiny-engine-webservice server
+
+1. Start <a href="https://github.com/opentiny/tiny-engine-data-center/blob/main/README.md" target="_blank">tiny-engine-data-center</a>
+
+2. Start <a href="https://github.com/opentiny/tiny-engine-webservice/blob/main/README.md" target="_blank">tiny-engine-webservice</a>
+
+3. Modify the origin value in `vite.config.js` in the `packages/design-core/` directory of the tiny-engine project to be the address port of your local webService project (the webService port defaults to 7011), such as:
+
+<img alt="Modify port" src="https://res.hc-cdn.com/lowcode-portal/1.1.55/img/docimg/backend_deploy_5.png">
+
+
+### Materials Synchronization [Solution](https://opentiny.design/tiny-engine#/help-center/course/engine/56)
+
+```sh
+$ pnpm splitMaterials
+```
+
+```sh
+$ pnpm buildMaterials
 ```
 
 Open a browser: `http://localhost:8080/?type=app&id=918&tenant=1&pageid=NTJ4MjvqoVj8OVsc`
@@ -47,6 +74,19 @@ pnpm build:plugin
 
 # Build Designer
 pnpm build:alpha or build:prod
+
+```
+
+## Milestones
+
+```mermaid
+gantt 
+dateFormat YYYY-MM-DD
+axisFormat %Y-%m-%d
+
+	1.0.0-beta.x version	:active,2023-09-25, 2024-03-31
+	1.0.0-rc	version    :       2024-04-01, 2024-06-30
+	1.0.0 version   :          2024-07-01, 2024-07-31
 
 ```
 
